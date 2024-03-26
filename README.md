@@ -1,29 +1,47 @@
-command examples:
+Here's your text rewritten using Markdown for better display in a GitHub README:
 
-# Kbot
+---
+
+## Kbot
 
 Kbot is a base Telegram bot that allows you to perform various tasks. It is built using Go and the Telegram Bot API.
 
-## Installation
+### Installation
 
 1. Clone the repository:
 
-git clone https://github.com/mrgitmail/kbot.git
-Build the bot:
-cd kbot
-go build
-Set your bot token as an environment variable:
-read - TELE_TOKEN
-export TELE_TOKEN
+   ```sh
+   git clone https://github.com/mrgitmail/kbot.git
+   ```
 
-./kbot start
+2. Build the bot:
 
+   ```sh
+   cd kbot
+   go build
+   ```
 
-Usage
+3. Set your bot token as an environment variable:
 
-/start - Start chatting with the bot.
-/start hello - Get a greeting from the bot.
+   ```sh
+   export TELE_TOKEN="your_telegram_token_here"
+   ```
 
-Link to running bot
+4. Start the bot:
 
-t.me/week2t5_bot
+   ```sh
+   ./kbot start
+   ```
+
+### Usage
+
+- `/start` - Start chatting with the bot.
+- `/start hello` - Get a greeting from the bot.
+
+### Link to Running Bot
+
+[t.me/week2t5_bot](https://t.me/week2t5_bot)
+
+---
+
+This Markdown will render as a clear and structured README on GitHub, making it easier for users to understand and follow the installation and usage instructions for your bot.
