@@ -5,8 +5,10 @@ replicaCount: 1
 image:
   repository: mrfwdmail
   repo: kbot
-  tag: "v1.1.1-1ba99e4-amd64-linux"
+  tag: "v1.1.1-a7979da"
   #arch: amd64
+
+  arch: amd64
 secret:
   name: "kbot"
   env: "TELE_TOKEN"
