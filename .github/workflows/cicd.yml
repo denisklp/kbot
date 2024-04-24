@@ -1,54 +1,58 @@
-name: KBOT-CICD
+  name: KBOT-CICD
 
-on: push
-
-env:
-  TARGETARCH: amd64
+  on: 
+    push:
+      branches:
+        - develop
+  env:
+    TARGETOS: linux
+    TARGETARCH: amd64
   
-jobs:
-  ci:
-    name: CI
-    runs-on: ubuntu-latest
+  jobs:
+    ci:
+      name: CI
+      runs-on: ubuntu-latest
+  
+      permissions:
+        contents: 'read'
+        id-token: 'write'
+        packages: write
 
-    steps:
-                          
-      - name: Checkout
-        uses: actions/checkout@v3
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+
+        - name: Run test
+          run: make test
+  # GHCR authorisation
+  
+        - name: 'Login to GitHub Container Registry'
+          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+  
+            
+        - name: Build&Push
+          env:
+            APP: "kbot"
+          run: make image push
+    cd:
+      name: CD
+      needs: ci
+      runs-on: ubuntu-latest
+  
+      steps:
+      - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-
-      - name: Run test
-        run: make test
-
-      - name: Docker Hub login
-        uses: docker/login-action@v2
+          fetch-depth: 0 
+      - run: echo "VERSION=$(git describe --tags --abbrev=0 --always)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+  
+      - uses: mikefarah/yq@master
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build&Push
-        env:
-          APP: "kbot"
-          REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: make image push TARGETARCH=$TARGETARCH
-      - name: Clean
-        run: make clean TARGETARCH=$TARGETARCH
-      
-  cd:
-    name: CD
-    needs: ci
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - run: echo "VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-    - uses: mikefarah/yq@master
-      with:
-        cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
-    - run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git commit -am "update version $VERSION"
-        git push
+          cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+  
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -am "update version $VERSION"
+          git push
