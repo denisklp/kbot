@@ -57,11 +57,12 @@
           git commit -am "update version $VERSION"
           git push
           
-        # Trigger ArgoCD to sync the application
-      - name: Trigger ArgoCD Sync
-        run: |
-          curl -k -X POST https://argocd-server/api/v1/applications/your-application/sync \
-          -H "Authorization: Bearer $ARGOCD_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d '{"revision": "HEAD"}'
+        # Trigger ArgoCD to sync the application. 
+        # Uncomment, if need this functionality
+      # - name: Trigger ArgoCD Sync
+      #   run: |
+      #     curl -k -X POST https://argocd-server/api/v1/applications/your-application/sync \
+      #     -H "Authorization: Bearer $ARGOCD_TOKEN" \
+      #     -H "Content-Type: application/json" \
+      #     -d '{"revision": "HEAD"}'
       
