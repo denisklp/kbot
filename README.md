@@ -1,7 +1,3 @@
-Here's your text rewritten using Markdown for better display in a GitHub README:
-
----
-
 ## Kbot
 
 Kbot is a base Telegram bot that allows you to perform various tasks. It is built using Go and the Telegram Bot API.
