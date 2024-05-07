@@ -7,6 +7,7 @@
   env:
     TARGETOS: linux
     TARGETARCH: amd64
+    HELM_CHART: "1.0.0"
   
   jobs:
     ci:
@@ -49,7 +50,9 @@
   
       - uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+          cmd: |
+            yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+            yq -i '.appVersion=env(VERSION) | .version=env(HELM_CHART)' helm/Chart.yaml
   
       - run: |
           git config user.name github-actions
