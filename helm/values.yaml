@@ -5,7 +5,7 @@ ingress:
   enabled: false
 image:
   registry: "docker.io"
-  repository: "kbot"
+  repository: "mrfwdmail"
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v25-0dcd0e0"
   os: linux
