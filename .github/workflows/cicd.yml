@@ -53,12 +53,6 @@
           cmd: |
             yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
             yq -i '.appVersion=strenv(VERSION) | .version=strenv(HELM_CHART)' helm/Chart.yaml
-  
-      - run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git commit -am "update version $VERSION"
-          git push
       
       - name: Package Helm Chart
         run: |
@@ -80,4 +74,10 @@
         run: |
           echo "Creating release..."
           gh release upload ${{ steps.create_release.outputs.tag }} docs/*.tgz 
+      
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -am "update version $VERSION"
+          git push
 
