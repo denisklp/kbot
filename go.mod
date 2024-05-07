@@ -1,4 +1,4 @@
-module github.com/mrgitmail/kbot
+module github.com/denisklp/kbot
 
 go 1.22.1
 
