@@ -54,11 +54,15 @@
             yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
             yq -i '.appVersion=strenv(VERSION) | .version=strenv(HELM_CHART)' helm/Chart.yaml
       
+      - run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+
       - name: Package Helm Chart
         run: |
           helm package helm/ -d docs/
           helm repo index docs/ --url https://denisklp.github.io/kbot/
-          
+
       - name: Create Release
         id: create_release
         env:
@@ -76,8 +80,6 @@
           gh release upload ${{ steps.create_release.outputs.tag }} docs/*.tgz 
       
       - run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
           git commit -am "update version $VERSION"
           git push
 
