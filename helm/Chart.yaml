@@ -2,5 +2,5 @@ apiVersion: v2
 name: kbot
 description: <Kbot> Helm chart for Kubernetes
 type: application
-version: 0.0.2
-appVersion: "v41-43627fc"
+version: 0.0.3
+appVersion: "v42-534dbc0"
