@@ -51,8 +51,6 @@ spec:
               secretKeyRef:
                 key: {{ .Values.secret.tokenKey }}
                 name: {{ .Values.secret.name }}
-          # - name: "APP_URL"
-          #   value: {{ .Values.env.app_url }}
 {{- /*
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
