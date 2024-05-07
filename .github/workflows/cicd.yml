@@ -79,4 +79,6 @@
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Creating release..."
-          gh release create ${{ steps.create_release.outputs.tag }} -t "Release ${{ github.run_number }}"
+          # gh release create ${{ steps.create_release.outputs.tag }} -t "Release ${{ github.run_number }}"
+          gh release upload ${{ steps.create_release.outputs.tag }} docs/*.tgz -t "Release ${{ github.run_number }}"
+
