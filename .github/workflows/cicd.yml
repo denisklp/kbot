@@ -57,12 +57,18 @@
           git commit -am "update version $VERSION"
           git push
           
-        # Trigger ArgoCD to sync the application. 
-        # Uncomment, if need this functionality
-      # - name: Trigger ArgoCD Sync
-      #   run: |
-      #     curl -k -X POST https://argocd-server/api/v1/applications/your-application/sync \
-      #     -H "Authorization: Bearer $ARGOCD_TOKEN" \
-      #     -H "Content-Type: application/json" \
-      #     -d '{"revision": "HEAD"}'
-      
+      - name: Create Release
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git tag -a v${{ github.run_number }} -m "Release v${{ github.run_number }}"
+          git push origin v${{ github.run_number }}
+          echo "::set-output name=tag::v${{ github.run_number }}"
+  
+      - name: Publish Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Creating release..."
+          gh release create ${{ steps.create_release.outputs.tag }} -t "Release ${{ github.run_number }}"
