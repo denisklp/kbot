@@ -9,7 +9,7 @@
     REPOSITORY: mrfwdmail
     TARGETOS: linux
     TARGETARCH: amd64
-    HELM_CHART: "1.0.2"
+    HELM_CHART: "0.0.1"
   
   jobs:
     ci:
@@ -44,7 +44,7 @@
         - name: Build&Push
           env:
             APP: "kbot"
-          run: make image push
+          run: make build image push
     cd:
       name: CD
       needs: ci
