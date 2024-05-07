@@ -52,7 +52,7 @@
         with:
           cmd: |
             yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
-            yq -i '.appVersion=env(VERSION) | .version=env(HELM_CHART)' helm/Chart.yaml
+            yq -i '.appVersion=strenv(VERSION) | .version=strenv(HELM_CHART)' helm/Chart.yaml
   
       - run: |
           git config user.name github-actions
