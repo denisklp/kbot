@@ -65,8 +65,7 @@
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -am "update version $VERSION"
-          git push
+          
       
       - name: Package Helm Chart
         run: |
@@ -88,4 +87,8 @@
         run: |
           echo "Creating release..."
           gh release create ${{ steps.create_release.outputs.tag }} -t "Release ${{ github.run_number }}" docs/*.tgz
+
+      - run: |
+          git commit -am "update version $VERSION"
+          git push
 
