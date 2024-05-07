@@ -5,8 +5,7 @@ replicaCount: 1
 image:
   repository: mrfwdmail
   repo: kbot
-
-  tag: "v1.1.1-1b3dbc5"
+  tag: "v1.1.1-9dbe092"
   #arch: amd64
 
   os: linux
