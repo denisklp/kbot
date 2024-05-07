@@ -1,6 +1,6 @@
 ## Kbot
 
-Kbot is a base Telegram bot that allows you to perform various tasks. It is built using Go and the Telegram Bot API.
+Kbot is a basic Telegram bot that allows you to perform various tasks. It is built using Go and the Telegram Bot API.
 
 ### Installation
 
