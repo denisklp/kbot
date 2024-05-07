@@ -59,8 +59,8 @@
       
       - name: Package Helm Chart
         run: |
-          helm package helm/charts/kbot -d helm/charts/
-          helm repo index helm/charts --url https://denisklp.github.io/kbot/    
+          helm package helm/ -d docs/
+          helm repo index docs/ --url https://denisklp.github.io/kbot/
           
       - name: Create Release
         id: create_release
