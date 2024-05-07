@@ -5,6 +5,8 @@
       branches:
         - main
   env:
+    REGISTRY: docker.io
+    REPOSITORY: mrfwdmail
     TARGETOS: linux
     TARGETARCH: amd64
     HELM_CHART: "1.0.0"
@@ -31,7 +33,13 @@
   
         - name: 'Login to GitHub Container Registry'
           run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-  
+
+        - name: Login with Github Container registry
+          uses: docker/login-action@v2
+          with:
+            registry: ${{ env.REGISTRY }}
+            username: ${{ env.REPOSITORY }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
             
         - name: Build&Push
           env:
