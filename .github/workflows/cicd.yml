@@ -50,11 +50,10 @@
         - name: Retrieve Encrypted TELE_TOKEN
           id: get_tele_token
           run: |
-            ENCRYPTED_TELE_TOKEN=$(gcloud secrets versions access latest --secret=TELE_TOKEN )
-            echo "$ENCRYPTED_TELE_TOKEN" > encrypted_token.bin
-            echo "$(cat encrypted_token.bin)"
-            TELE_TOKEN=$(gcloud kms decrypt --key=TELE_TOKEN --keyring=kbot --location=global --ciphertext-file=encrypted_token.bin --plaintext-file='-')
-            echo "Decrypted TELE_TOKEN: $TELE_TOKEN"
+            gcloud secrets versions access latest --secret=TELE_TOKEN --out-file=ENCRYPTED_TELE_TOKEN.bin --format='get(payload.data)' | tr '_-' '/+' | base64 -d            
+            echo "$(cat ENCRYPTED_TELE_TOKEN.bin)"
+            gcloud kms decrypt --key=TELE_TOKEN --keyring=kbot --location=global --ciphertext-file=ENCRYPTED_TELE_TOKEN.bin --plaintext-file=TELE_TOKEN.bin)
+            echo "Decrypted TELE_TOKEN: $(cat TELE_TOKEN.bin)"
 
         - name: Build&Push
           env:
