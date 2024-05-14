@@ -3,4 +3,4 @@ name: kbot
 description: <Kbot> Helm chart for Kubernetes
 type: application
 version: 0.0.3
-appVersion: "v45-b398091"
+appVersion: "v48-067eb66"
