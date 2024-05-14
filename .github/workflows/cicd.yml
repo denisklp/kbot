@@ -52,7 +52,7 @@
           run: |
             gcloud secrets versions access latest --secret=TELE_TOKEN --out-file=ENCRYPTED_TELE_TOKEN.bin --format='get(payload.data)' | tr '_-' '/+' | base64 -d            
             echo "$(cat ENCRYPTED_TELE_TOKEN.bin)"
-            gcloud kms decrypt --key=TELE_TOKEN --keyring=kbot --location=global --ciphertext-file=ENCRYPTED_TELE_TOKEN.bin --plaintext-file=TELE_TOKEN.bin)
+            gcloud kms decrypt --key=TELE_TOKEN --keyring=kbot --location=global --ciphertext-file=ENCRYPTED_TELE_TOKEN.bin --plaintext-file=TELE_TOKEN.bin
             echo "Decrypted TELE_TOKEN: $(cat TELE_TOKEN.bin)"
 
         - name: Build&Push
