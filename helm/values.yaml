@@ -7,7 +7,7 @@ image:
   registry: "docker.io"
   repository: "mrfwdmail"
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v49-96e3814"
+  tag: "v51-6f8652c"
   os: linux
   arch: amd64
 secret:
