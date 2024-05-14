@@ -3,7 +3,7 @@
   on: 
     push:
       branches:
-        - main
+        - secret-test
   env:
     REGISTRY: docker.io
     REPOSITORY: mrfwdmail
