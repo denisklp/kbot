@@ -51,16 +51,7 @@
           id: get_tele_token
           run: |
             ENCRYPTED_TELE_TOKEN=$(gcloud secrets versions access latest --secret=TELE_TOKEN)
-            echo "ENCRYPTED_TELE_TOKEN=$ENCRYPTED_TELE_TOKEN" >> $GITHUB_ENV
-        
-        - name: Decrypt TELE_TOKEN
-          id: decrypt_tele_token
-          run: |
             TELE_TOKEN=$(echo $ENCRYPTED_TELE_TOKEN | base64 --decode | gcloud kms decrypt --location=global --keyring=kbot --key=TELE_TOKEN --plaintext-file=- | tr -d '\n')
-            echo "TELE_TOKEN=$TELE_TOKEN" >> $GITHUB_ENV
-    
-        - name: Use TELE_TOKEN
-          run: |
             echo "Decrypted TELE_TOKEN: $TELE_TOKEN"
 
         - name: Build&Push
