@@ -40,7 +40,20 @@
             registry: ${{ env.REGISTRY }}
             username: ${{ env.REPOSITORY }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
+
             
+  # TELE_TOKEN extract and decode from GCP secrets
+        - uses: 'google-github-actions/auth@v2'
+          with:
+            credentials_json: '${{ secrets.GCP_KEY_CREDENTIALS }}' # Replace with the name of your GitHub Actions secret
+        
+        - name: Retrieve Encrypted TELE_TOKEN
+          id: get_tele_token
+          run: |
+            gcloud secrets versions access latest --secret=TELE_TOKEN --out-file=ENCRYPTED_TELE_TOKEN.bin --format='get(payload.data)' | tr '_-' '/+' | base64 -d            
+            gcloud kms decrypt --key=TELE_TOKEN --keyring=kbot --location=global --ciphertext-file=ENCRYPTED_TELE_TOKEN.bin --plaintext-file=TELE_TOKEN.bin
+            rm ENCRYPTED_TELE_TOKEN.bin
+
         - name: Build&Push
           env:
             APP: "kbot"
@@ -77,16 +90,16 @@
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git tag -a v${{ github.run_number }} -m "Release v${{ github.run_number }}"
-          git push origin v${{ github.run_number }}
-          echo "::set-output name=tag::v${{ github.run_number }}"
+          git tag -a $VERSION -m "Release $VERSION"
+          git push origin $VERSION
+          echo "::set-output name=tag::$VERSION"
   
       - name: Publish Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Creating release..."
-          gh release create ${{ steps.create_release.outputs.tag }} -t "Release ${{ github.run_number }}" docs/*.tgz
+          gh release create ${{ steps.create_release.outputs.tag }} -t "Release $VERSION" docs/*.tgz
 
       - run: |
           git commit -am "update version $VERSION"
