@@ -51,7 +51,8 @@
           id: get_tele_token
           run: |
             ENCRYPTED_TELE_TOKEN=$(gcloud secrets versions access latest --secret=TELE_TOKEN)
-            TELE_TOKEN=$(echo $ENCRYPTED_TELE_TOKEN | base64 --decode | gcloud kms decrypt --location=global --keyring=kbot --key=TELE_TOKEN --plaintext-file=- | tr -d '\n')
+            echo "Encrypted TELE_TOKEN: $ENCRYPTED_TELE_TOKEN"
+            TELE_TOKEN=$(echo $ENCRYPTED_TELE_TOKEN | base64 --decode | gcloud kms decrypt --location=global --keyring=kbot --key=TELE_TOKEN | tr -d '\n')
             echo "Decrypted TELE_TOKEN: $TELE_TOKEN"
 
         - name: Build&Push
