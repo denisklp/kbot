@@ -9,7 +9,7 @@
     REPOSITORY: mrfwdmail
     TARGETOS: linux
     TARGETARCH: amd64
-    HELM_CHART: "0.0.1"
+    HELM_CHART: "1.0.0"
   
   jobs:
     ci:
