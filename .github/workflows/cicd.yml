@@ -3,7 +3,7 @@
   on: 
     push:
       branches:
-        - main
+        - pause
   env:
     REGISTRY: docker.io
     REPOSITORY: mrfwdmail
